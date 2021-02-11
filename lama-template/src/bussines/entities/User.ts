@@ -24,10 +24,13 @@ export class User {
                 throw new CustomError(422, "Invalid user role");
         }
     }
+
+    static roleToString(input: USER_ROLE): string {
+        return input === USER_ROLE.ADMIN ? "ADMIN" : "NORMAL"
+    }
 }
 
 export interface UserInputDTO {
-    id: string;
     name: string;
     email: string;
     password: string;
