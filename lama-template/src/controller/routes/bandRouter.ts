@@ -8,3 +8,4 @@ const bandController = new BandController();
 
 //no index será usado app.use("/band", bandRouter)
 bandRouter.post("/create", bandController.bandSignup) 
+
