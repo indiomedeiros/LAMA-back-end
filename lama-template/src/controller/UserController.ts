@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { UserBusiness } from "../bussines/UserBusiness";
-import { UserInputDTO, LoginInputDTO } from "../bussines/entities/User";
-import { IdGenerator } from "../bussines/service/IdGenerator";
-import { HashManager } from "../bussines/service/HashManager";
-import { Authenticator } from "../bussines/service/Authenticatior";
+import { UserBusiness } from "../business/UserBusiness";
+import { UserInputDTO, LoginInputDTO } from "../business/entities/User";
+import { IdGenerator } from "../business/service/IdGenerator";
+import { HashManager } from "../business/service/HashManager";
+import { Authenticator } from "../business/service/Authenticatior";
 import { UserDatabase } from "../data/UserDatabase";
 
 const userBusiness = new UserBusiness(

@@ -1,6 +1,6 @@
 import { BaseDatabase } from "./BaseDatabase"
-import { User } from "../bussines/entities/User"
-import { CustomError } from "../bussines/errors/CustomError"
+import { User } from "../business/entities/User"
+import { CustomError } from "../business/errors/CustomError"
 
 export class UserDatabase extends BaseDatabase {
 
