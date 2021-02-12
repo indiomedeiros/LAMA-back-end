@@ -17,22 +17,14 @@ export class ShowBusiness {
       const id = this.idGenerator.generateId();
       const result = this.authenticator.getTokenData(token);
 
+      const startTime = Number(start_time)
+      const endTime = Number(end_time)
+
       if (!result || result.role !== USER_ROLE.ADMIN) {
         throw new CustomError(401, "Not authorized");
       }
 
-      //   if (
-      //     week_day !== SHOW_ROLE.SEXTA ||
-      //     week_day !== SHOW_ROLE.SABADO ||
-      //     week_day !== SHOW_ROLE.DOMINGO
-      //   ) {
-      //     throw new CustomError(
-      //       401,
-      //       "Show can only be schedule 'friday', 'saturday' or 'sunday'"
-      //     );
-      //   }
-
-      if (start_time < 8 && end_time > 23) {
+      if (startTime < 8 || endTime > 23 || startTime >= endTime) {
         throw new CustomError(401, "Show can only be schedule from 8 to 23");
       }
 
@@ -73,13 +65,24 @@ export class ShowBusiness {
         throw new CustomError(400, "Week day must be provided");
       }
 
+      switch (input) {
+        case "sexta":
+          break;
+        case "sabado":
+          break;
+        case "domingo":
+          break;
+        default:
+          throw new CustomError(422, "Invalid week day");
+      }
+
       const tokenResult = this.authenticator.getTokenData(token);
 
       if (!tokenResult || tokenResult.role !== USER_ROLE.ADMIN) {
         throw new CustomError(401, "not authorized");
       }
 
-      const queryResult = await this.showDatabase.selectShowByDay(input);
+      const queryResult = await this.showDatabase.selectByDay(input);
 
       if (!queryResult) {
         throw new CustomError(404, "There is no show on this day.");

@@ -36,7 +36,7 @@ export class ShowController {
       const token = req.headers.authorization as string;
       const day = req.body.day;
       const result = await showBusiness.getShowByDay(day, token)
-      res.status(201).send({ message: "Sucess", result });
+      res.status(201).send({ result });
     } catch (error) {
       res.status(error.statusCode || 400).send({ error: error.message });
     }
