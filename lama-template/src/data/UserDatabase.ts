@@ -4,7 +4,7 @@ import { CustomError } from "../bussines/errors/CustomError"
 
 export class UserDatabase extends BaseDatabase {
 
-    private static tableName = "NOME_TABELAS_USUÁRIOS"
+    private static tableName = "users"
 
     private static toUserModel(user: User): User {
         return new User(
@@ -21,8 +21,8 @@ export class UserDatabase extends BaseDatabase {
             await BaseDatabase.connection
             .insert({
                id: user.id,
-               email: user.email,
                name: user.name,
+               email: user.email,
                password: user.password,
                role: User.roleToString(user.role)
             })

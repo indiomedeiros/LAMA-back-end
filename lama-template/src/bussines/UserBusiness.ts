@@ -5,12 +5,12 @@ import { HashManager } from "./service/HashManager"
 import { Authenticator } from "./service/Authenticatior"
 import { CustomError } from "./errors/CustomError"
 
-export class UserBussines {
+export class UserBusiness {
     constructor(
         private idGenarator: IdGenerator,
         private hashManager: HashManager,
         private authenticator: Authenticator,
-        private userDataBase: UserDatabase,
+        private userDatabase: UserDatabase,
     ){}
 
     public async createUser(input: UserInputDTO) {
@@ -31,11 +31,14 @@ export class UserBussines {
                 User.stringToUserRole(input.role)
             )
 
-            await this.userDataBase.insertUser(newUser)
+            await this.userDatabase.insertUser(newUser)
 
-            const token: string = this.authenticator.genarateToken({ id, role: User.stringToUserRole(input.role)})
+            const accessToken: string = this.authenticator.generateToken({ 
+                id, 
+                role: input.role})
 
-            return token
+            return accessToken
+            
         } catch (error) {
             throw new CustomError(error.statusCode, error.sqlMessage || error.message)
         }

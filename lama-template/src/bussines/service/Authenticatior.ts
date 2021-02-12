@@ -2,9 +2,12 @@ import * as jwt from"jsonwebtoken";
 import {AuthenticationData} from "../entities/User"
 
 export class Authenticator {
-    public genarateToken(payload: AuthenticationData): string {
+    public generateToken(
+      payload: AuthenticationData,
+      expiresIn: string = process.env.JWT_EXPIRES_IN!
+      ): string {
         return jwt.sign(payload, process.env.JWT_KEY as string, {
-        expiresIn: process.env.JWT_EXPIRE_IN
+        expiresIn,
     });
     }
 

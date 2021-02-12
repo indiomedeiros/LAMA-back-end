@@ -5,5 +5,5 @@ import { UserController } from "../../controller/UserController";
 export const userRouter = express.Router();
 const userController = new UserController();
 
-userRouter.post("/signup", userController.createUser);
+userRouter.post("/signup", userController.signup);
 // userRouter.post("/login", userController.login);
