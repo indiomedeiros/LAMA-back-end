@@ -31,4 +31,17 @@ export class UserDatabase extends BaseDatabase {
             throw new CustomError(500, "An unexpected error ocurred");
          }
     }
+
+    public async selectUser(email:string): Promise<User> {
+        try{
+            const result = await BaseDatabase.connection
+            .select("*")
+            .from(UserDatabase.tableName)
+            .where({email})
+
+            return UserDatabase.toUserModel(result[0])
+        } catch (error) {
+            throw new CustomError(500, "An unexpected error ocurred");
+         }
+    }
 }
