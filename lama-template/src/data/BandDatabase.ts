@@ -15,20 +15,20 @@ export class BandDatabase extends BaseDatabase {
     try {
       await BaseDatabase.connection.insert(band).into(BandDatabase.tableName);
     } catch (error) {
-      throw new CustomError(500, "An unexpected error ocurred");
+      throw new Error(error.sqlMessage || error.message);
     }
   }
 
-  public async getBand(idBand: string): Promise<Band> {
+  public async getBand(id: string): Promise<Band> {
     try {
       const result = await BaseDatabase.connection
         .select("*")
         .from(BandDatabase.tableName)
-        .where(idBand);
-
+        .where({id});
+        
       return BandDatabase.toBandModel(result[0]);
     } catch (error) {
-      throw new CustomError(500, "An unexpected error ocurred");
+      throw new Error(error.sqlMessage || error.message);
     }
   }
 }
