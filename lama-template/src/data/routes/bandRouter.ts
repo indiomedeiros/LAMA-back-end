@@ -1,5 +1,5 @@
 import express from "express"
-import { BandController } from "../BandController";
+import { BandController } from "../../controller/BandController";
 
 
 
@@ -8,4 +8,3 @@ const bandController = new BandController();
 
 //no index será usado app.use("/band", bandRouter)
 bandRouter.post("/create", bandController.bandSignup) 
-

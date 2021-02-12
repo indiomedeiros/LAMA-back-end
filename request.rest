@@ -1,0 +1,8 @@
+### Create User
+POST http://localhost:3003/user/signup
+Content-Type: application/json
+{     "name": "aben",
+      "password": "47851269",
+      "email": "bn@gmail.com",
+      "role": "ADMIN"
+}
