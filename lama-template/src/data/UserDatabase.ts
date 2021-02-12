@@ -28,7 +28,7 @@ export class UserDatabase extends BaseDatabase {
             })
             .into(UserDatabase.tableName)
         } catch (error) {
-            throw new CustomError(500, "An unexpected error ocurred");
+            throw new Error(error.sqlMessage || error.message);
          }
     }
 

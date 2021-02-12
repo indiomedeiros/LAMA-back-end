@@ -1,0 +1,40 @@
+### creat User
+POST http://localhost:3003/user/signup
+Content-Type: application/json
+
+{
+    "name": "indio",
+    "email": "ndio@gmail.com",
+    "password": "154769284" , 
+    "role": "ADMIN"
+}
+
+### login
+POST http://localhost:3003/user/login 
+Content-Type: application/json
+
+{
+    
+    "email": "ndio@gmail.com",
+    "password": "154769284"  
+   
+}
+
+### login
+POST http://localhost:3003/band/create 
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNiMzM5MTIwLTllMzMtNDgwMi1iNGZmLTU5ZWRlZDgxNWUyOSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYxMzE0OTU5MCwiZXhwIjoxNjEzMTUzMTkwfQ.VV_A3CDFub7MoEAl649c84BgFH2PTeUDHvhi4VBXY7M
+Content-Type: application/json
+
+{
+    
+    "name": "Banda do indio",
+    "music_genre": "indigena",
+    "responsible": "Diana"  
+   
+}
+
+### get band
+POST http://localhost:3003/band/e8d7b126-7a11-4697-8916-8c087f0d7edc 
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNiMzM5MTIwLTllMzMtNDgwMi1iNGZmLTU5ZWRlZDgxNWUyOSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYxMzE0OTU5MCwiZXhwIjoxNjEzMTUzMTkwfQ.VV_A3CDFub7MoEAl649c84BgFH2PTeUDHvhi4VBXY7M
+Content-Type: application/json
+
