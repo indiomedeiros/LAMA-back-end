@@ -8,3 +8,4 @@ const showController = new ShowController();
 
 //no index será usado app.use("/show", showRouter)
 showRouter.post("/schedule", showController.schedule )
+showRouter.get("/allshows", showController.getShowByDay)

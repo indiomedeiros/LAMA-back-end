@@ -58,7 +58,7 @@ export class UserBusiness {
       }
 
       if (input.email.indexOf("@") === -1) {
-        throw new Error("Email inválido");
+        throw new CustomError(401, "Email inválido");
       }
 
       const user: User = await this.userDatabase.selectUser(input.email);
