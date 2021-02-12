@@ -9,7 +9,7 @@ export class BandBusiness {
   constructor(
     private authenticator: Authenticator,
     private idGenerator: IdGenerator,
-    private userDatabase: BandDatabase
+    private bandDatabase: BandDatabase
   ) {}
 
   public async createBand(band: BandInputDTO, token: string): Promise <void> {
@@ -28,7 +28,7 @@ export class BandBusiness {
         responsible,
       };
 
-      await this.userDatabase.createBand(inputBand);
+      await this.bandDatabase.createBand(inputBand);
     } catch (error) {
       throw new CustomError(
         error.statusCode,
@@ -45,7 +45,7 @@ export class BandBusiness {
         throw new CustomError(401, "not authorized");
       }
 
-      const queryResult = await this.userDatabase.getBand(id);
+      const queryResult = await this.bandDatabase.getBand(id);
       if (!queryResult) {
         throw new CustomError(404, "Post not found");
       }
