@@ -25,28 +25,15 @@ export class ShowDatabase extends BaseDatabase {
             throw new Error(error.sqlMessage || error.message)
         }
     }
-    // public async selectShow (start_time: number, end_time: number, week_day:string ):Promise<any>{
-    //     try {
-    //     const result =   await BaseDatabase.connection.raw(`
-    //     SELECT * FROM ${ShowDatabase.tableName}
-    //     WHERE week_day = '${week_day}' AND start_time >= ${start_time} OR end_time <= ${end_time};
-    //     `)
-               
-    //     return result[0]
-        
-    //     } catch (error) {
-    //         throw new Error(error.sqlMessage || error.message)
-    //     }
-    // }
 
-    public async selectAllShow ():Promise<any>{
+    public async selectShowByDay (week_day: string):Promise<Show[]>{
         try {
         const result = await BaseDatabase.connection
         .select("*")
         .from(ShowDatabase.tableName)
-               
+        .where({week_day})  
+
         return result
-        
         } catch (error) {
             throw new Error(error.sqlMessage || error.message)
         }

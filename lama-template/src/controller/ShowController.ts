@@ -30,4 +30,16 @@ export class ShowController {
       res.status(error.statusCode || 400).send({ erro: error.message });
     }
   }
+
+  public async getShowByDay(req: Request, res: Response) {
+    try {
+      const token = req.headers.authorization as string;
+      const day = req.body.day;
+      const result = await showBusiness.getShowByDay(day, token)
+      res.status(201).send({ message: "Sucess", result });
+    } catch (error) {
+      res.status(error.statusCode || 400).send({ error: error.message });
+    }
+
+  }
 }
