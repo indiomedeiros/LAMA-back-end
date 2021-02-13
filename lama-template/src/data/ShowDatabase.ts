@@ -33,7 +33,7 @@ export class ShowDatabase extends BaseDatabase {
   public async selectByDay(week_day: string): Promise<Show[]> {
     try {
       const result = await BaseDatabase.connection.raw(
-        `SELECT name, music_genre
+        `SELECT name, music_genre, start_time, end_time
             FROM lama_bands
             JOIN ${ShowDatabase.tableName}
             ON lama_shows.band_id = lama_bands.id

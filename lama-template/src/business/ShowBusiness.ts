@@ -74,11 +74,11 @@ export class ShowBusiness {
       }
 
       switch (input) {
-        case "sexta":
+        case "SEXTA":
           break;
-        case "sabado":
+        case "SABADO":
           break;
-        case "domingo":
+        case "DOMINGO":
           break;
         default:
           throw new CustomError(422, "Invalid week day");

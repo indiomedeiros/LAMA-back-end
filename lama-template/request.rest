@@ -49,3 +49,16 @@ Content-Type: application/json
         "start_time": 18,
         "end_time":22
 }
+
+### schedule Show
+GET http://localhost:3003/show/allshows
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNiMzM5MTIwLTllMzMtNDgwMi1iNGZmLTU5ZWRlZDgxNWUyOSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYxMzIzODQxNiwiZXhwIjoxNjEzMzI0ODE2fQ.roE6p5oqLczcrYl4iHijMHXJtPOJUUw1cM5R1jJl_s4
+Content-Type: application/json
+
+{
+        "day": "SEXTA"
+}
+
+     
+
+
