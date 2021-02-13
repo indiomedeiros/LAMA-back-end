@@ -17,8 +17,8 @@ export class ShowBusiness {
       const id = this.idGenerator.generateId();
       const result = this.authenticator.getTokenData(token);
 
-      const startTime = Number(start_time)
-      const endTime = Number(end_time)
+      const startTime = Number(start_time);
+      const endTime = Number(end_time);
 
       if (!result || result.role !== USER_ROLE.ADMIN) {
         throw new CustomError(401, "Not authorized");
@@ -28,20 +28,27 @@ export class ShowBusiness {
         throw new CustomError(401, "Show can only be schedule from 8 to 23");
       }
 
-      // const outputShow = await this.showDatabase.selectAllShow();
-      // console.log(outputShow);
-      // const resultOutputShow = outputShow.filter((item:any) => {
-      //   return (
-      //     item.start_time >= start_time &&
-      //     item.end_time <= end_time &&
-      //     item.week_day === week_day
-      //   );
-      // });
+      switch (week_day) {
+        case "SEXTA":
+          break;
+        case "SABADO":
+          break;
+        case "DOMINGO":
+          break;
+        default:
+          throw new CustomError(422, "Invalid week day");
+      }
 
-      // console.log(resultOutputShow);
-      // if (resultOutputShow.length !== 0) {
-      //   throw new CustomError(401, "Schedule not available");
-      // }
+      const outputShow = await this.showDatabase.checkConcertSchedule(
+        week_day,
+        start_time,
+        end_time
+      );
+      console.log(outputShow);
+      if (outputShow.length !== 0) {
+        throw new CustomError(401, "Schedule not available");
+      }
+
       const inputShow: any = {
         id,
         band_id,
@@ -51,6 +58,7 @@ export class ShowBusiness {
       };
 
       await this.showDatabase.insertShow(inputShow);
+      
     } catch (error) {
       throw new CustomError(
         error.statusCode,
@@ -88,9 +96,8 @@ export class ShowBusiness {
         throw new CustomError(404, "There is no show on this day.");
       }
 
-      return queryResult
-
-      } catch (error) {
+      return queryResult;
+    } catch (error) {
       throw new CustomError(
         error.statusCode,
         error.sqlMessage || error.message

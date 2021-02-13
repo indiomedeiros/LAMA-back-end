@@ -20,7 +20,7 @@ Content-Type: application/json
    
 }
 
-### login
+### create Band
 POST http://localhost:3003/band/create 
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNiMzM5MTIwLTllMzMtNDgwMi1iNGZmLTU5ZWRlZDgxNWUyOSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYxMzE0OTU5MCwiZXhwIjoxNjEzMTUzMTkwfQ.VV_A3CDFub7MoEAl649c84BgFH2PTeUDHvhi4VBXY7M
 Content-Type: application/json
@@ -40,12 +40,12 @@ Content-Type: application/json
 
 ### schedule Show
 POST http://localhost:3003/show/schedule
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNiMzM5MTIwLTllMzMtNDgwMi1iNGZmLTU5ZWRlZDgxNWUyOSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYxMzE1OTE2NCwiZXhwIjoxNjEzMTYyNzY0fQ.FAaY9eXaN7uzVmycwPL9G28aERI6FEMtdH8W-EwLgeY
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNiMzM5MTIwLTllMzMtNDgwMi1iNGZmLTU5ZWRlZDgxNWUyOSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYxMzIzODQxNiwiZXhwIjoxNjEzMzI0ODE2fQ.roE6p5oqLczcrYl4iHijMHXJtPOJUUw1cM5R1jJl_s4
 Content-Type: application/json
 
 {
         "band_id": "e8d7b126-7a11-4697-8916-8c087f0d7edc",
         "week_day": "SEXTA",
-        "start_time": 6,
-        "end_time":7
+        "start_time": 18,
+        "end_time":22
 }
