@@ -15,12 +15,12 @@ export class UserBusiness {
 
   public async createUser(input: UserInputDTO) {
     try {
-      if (!input.name || !input.password) {
-        throw new CustomError(406, "Please provide a 'name'and a 'password'");
+      if (!input.name || !input.password || !input.role) {
+        throw new CustomError(406, "Please provide a 'name', 'password' and 'role'");
       }
 
       if (!input.email || input.email.indexOf("@") === -1) {
-        throw new Error("Invalid e-mail");
+        throw new CustomError(406, "Invalid e-mail");
       }
 
       const id: string = this.idGenarator.generateId();
