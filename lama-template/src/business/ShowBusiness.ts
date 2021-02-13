@@ -16,16 +16,19 @@ export class ShowBusiness {
       const { band_id, week_day, start_time, end_time } = show;
       const id = this.idGenerator.generateId();
       const result = this.authenticator.getTokenData(token);
-
       const startTime = Number(start_time);
       const endTime = Number(end_time);
+
+      if(!band_id || !week_day || !startTime || !endTime){
+        throw new CustomError(406, "Please provide a 'band_id', 'week_day', 'end time' and 'start time'");
+      }
 
       if (!result || result.role !== USER_ROLE.ADMIN) {
         throw new CustomError(401, "Not authorized");
       }
 
-      if (startTime < 8 || endTime > 23 || startTime >= endTime) {
-        throw new CustomError(401, "Show can only be schedule from 8 to 23");
+      if (startTime < 8 || endTime > 23 || startTime >= endTime || !Number.isInteger(startTime) || !Number.isInteger(endTime)) {
+        throw new CustomError(401, "Selected time is invalid");
       }
 
       switch (week_day) {

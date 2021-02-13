@@ -15,14 +15,14 @@ Content-Type: application/json
 
 {
     
-    "email": "ndio@gmail.com",
-    "password": "154769284"  
+    "email": "gil@gmail.com",
+    "password": "123456"  
    
 }
 
 ### create Band
 POST http://localhost:3003/band/create 
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNiMzM5MTIwLTllMzMtNDgwMi1iNGZmLTU5ZWRlZDgxNWUyOSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYxMzE0OTU5MCwiZXhwIjoxNjEzMTUzMTkwfQ.VV_A3CDFub7MoEAl649c84BgFH2PTeUDHvhi4VBXY7M
+Authorization: 
 Content-Type: application/json
 
 {

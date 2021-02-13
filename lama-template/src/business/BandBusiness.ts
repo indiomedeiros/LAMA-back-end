@@ -18,6 +18,10 @@ export class BandBusiness {
       const id = this.idGenerator.generateId();
       const result = this.authenticator.getTokenData(token);
 
+      if(!name|| !music_genre || !responsible){
+        throw new CustomError(406, "Please provide a 'name', 'music_genre' and 'responsible");
+      }
+
       if (!result || result.role !== USER_ROLE.ADMIN) {
         throw new CustomError(401, "not authorized");
       }

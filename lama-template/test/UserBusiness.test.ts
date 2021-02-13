@@ -1,7 +1,7 @@
 import { UserInputDTO } from "../src/business/entities/User";
 import { UserBusiness } from "../src/business/UserBusiness";
 
-describe("Testing register band", () => {
+describe("Testing register user", () => {
   const idGenerator = { generate: jest.fn(() => "test") } as any;
   let hashManager = { hash: jest.fn(), compare: jest.fn() } as any;
   let authenticator = { generateToken: jest.fn() } as any;
