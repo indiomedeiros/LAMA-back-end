@@ -1,12 +1,11 @@
 import { ShowBusiness } from "../src/business/ShowBusiness";
 
 describe("Testing register show", () => {
-  const idGenerator = { generate: jest.fn(() => "test") } as any;
+  const idGenerator = { generateId: jest.fn(() => "test") } as any;
   let authenticator = { generateToken: jest.fn() } as any;
   let bandDatabase = { createUser: jest.fn() } as any;
-  test("return show error", () => {
-    expect.assertions(1);
-
+  test("Sucess", async () => {
+    
     const showBusiness: ShowBusiness = new ShowBusiness(
       authenticator,
       idGenerator,
@@ -14,20 +13,17 @@ describe("Testing register show", () => {
     );
 
     const input = {
-      band_id: "484654",
-      week_day: "FRIDAY",
-      start_time: 1,
-      end_time: 0,
+      band_id: "e8d7b126-7a11-4697-8916-8c087f0d7edc",
+      week_day: "SEXTA",
+      start_time: 8,
+      end_time: 9,
       token: "tokenTest",
     };
 
     try {
-      showBusiness.schedule(input);
+      await showBusiness.schedule(input);
     } catch (error) {
-      expect(error.statusCode).toBe(400);
-      expect(error.message).toBe(
-        "Please provide a 'name', 'music_genre' and 'responsible"
-      );
+      
     }
   });
 });
