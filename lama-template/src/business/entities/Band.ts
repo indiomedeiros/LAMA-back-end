@@ -23,6 +23,16 @@ export interface BandInputDTO {
   responsible: string;
 }
 
+export interface CreateBandInputDTO extends BandInputDTO {
+    token: string
+}
+
+export interface GetBandByIdInputDTO {
+    id: string,
+    token: string
+}
+ 
+
 export interface DetailsInputDTO {
   id: string;
   name: string;

@@ -1,4 +1,5 @@
 import { ShowDatabase } from "../data/ShowDatabase";
+import { GetShowByDayInputDTO, ScheduleInputDTO, Show } from "./entities/Show";
 import { CheckData } from "./errors/CheckData";
 import { CustomError } from "./errors/CustomError";
 import { Authenticator } from "./service/Authenticatior";
@@ -10,9 +11,15 @@ export class ShowBusiness {
     private authenticator: Authenticator,
     private showDatabase: ShowDatabase
   ) {}
-  public async schedule(show: any, token: string): Promise<void> {
+  public async schedule(scheduleInputDTO: ScheduleInputDTO): Promise<void> {
     try {
-      const { band_id, week_day, start_time, end_time } = show;
+      const {
+        band_id,
+        week_day,
+        start_time,
+        end_time,
+        token,
+      } = scheduleInputDTO;
       const id = this.idGenerator.generateId();
       const result = this.authenticator.getTokenData(token);
       const startTime = Number(start_time);
@@ -52,16 +59,19 @@ export class ShowBusiness {
     }
   }
 
-  public async getShowByDay(inputWeekday: string, token: string) {
+  public async getShowByDay(
+    getShowByDayInputDTO: GetShowByDayInputDTO
+  ): Promise<Show[]> {
     try {
+      const { day, token } = getShowByDayInputDTO;
       const check = new CheckData();
-      check.checkExistenceProperty(inputWeekday, "day");
-      check.checkDayWeek(inputWeekday);
+      check.checkExistenceProperty(day, "day");
+      check.checkDayWeek(day);
 
       const tokenResult = this.authenticator.getTokenData(token);
       check.checkAuthorization(tokenResult.role!);
 
-      const queryResult = await this.showDatabase.selectByDay(inputWeekday);
+      const queryResult = await this.showDatabase.selectByDay(day);
       check.checkExistenceObject(queryResult, "There is no show on this day.");
 
       return queryResult;
