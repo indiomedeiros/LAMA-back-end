@@ -1,5 +1,5 @@
 import { BandBusiness } from "../src/business/BandBusiness";
-import { BandInputDTO } from "../src/business/entities/Band";
+import { BandInputDTO, CreateBandInputDTO } from "../src/business/entities/Band";
 import { USER_ROLE } from "../src/business/entities/User";
 
 const idGenerator = { generate: jest.fn(() => "test") } as any;
@@ -30,14 +30,15 @@ describe("Testing register band", () => {
  
   test("Shoulder return error when 'name' is empty", async () => {
     expect.assertions(1);
-    const input: BandInputDTO = {
+    const input: CreateBandInputDTO = {
       name: "Diana",
       music_genre: "Rock",
       responsible: "John Lennon",
+      token: "tokenAdmin",
     };
 
     try {
-      await bandBusiness.createBand(input, "");
+      await bandBusiness.createBand(input);
 
     } catch (error) {
       expect(error.message).toBe(

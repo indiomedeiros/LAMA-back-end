@@ -1,6 +1,5 @@
-import { Band, BandInputDTO } from "./entities/Band";
+import { Band, BandInputDTO, CreateBandInputDTO, GetBandByIdInputDTO } from "./entities/Band";
 import { IdGenerator } from "./service/IdGenerator";
-import { USER_ROLE } from "./entities/User";
 import { Authenticator } from "./service/Authenticatior";
 import { CustomError } from "./errors/CustomError";
 import { BandDatabase } from "../data/BandDatabase";
@@ -13,9 +12,9 @@ export class BandBusiness {
     private bandDatabase: BandDatabase
   ) {}
 
-  public async createBand(band: BandInputDTO, token: string): Promise<void> {
+  public async createBand(createBandInputDTO: CreateBandInputDTO): Promise<void> {
     try {
-      const { name, music_genre, responsible } = band;
+      const { name, music_genre, responsible, token } = createBandInputDTO;
       const id = this.idGenerator.generateId();
       const result = this.authenticator.getTokenData(token);
       const check = new CheckData();
@@ -41,14 +40,14 @@ export class BandBusiness {
     }
   }
 
-  public async getBandById(id: string, token: string): Promise<Band> {
+  public async getBandById(getBandByIdInputDTO: GetBandByIdInputDTO): Promise<Band> {
     try {
+      const {id, token} = getBandByIdInputDTO
       const tokenResult = this.authenticator.getTokenData(token);
-
-      const check = new CheckData();
-      check.checkAuthorization(tokenResult.role!);
-
       const queryResult = await this.bandDatabase.getBand(id);
+      const check = new CheckData();
+      
+      check.checkAuthorization(tokenResult.role!);
       check.checkExistenceObject(queryResult, "Post not found");
 
       const band: Band = {

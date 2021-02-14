@@ -1,21 +1,20 @@
 import { UserInputDTO } from "../src/business/entities/User";
 import { UserBusiness } from "../src/business/UserBusiness";
 
-describe("Testing register band", () => {
-  const idGenerator = { generate: jest.fn(() => "test") } as any;
-  let hashManager = { hash: jest.fn(), compare: jest.fn() } as any;
-  let authenticator = { generateToken: jest.fn() } as any;
-  let userDatabase = { createUser: jest.fn() } as any;
+const idGenerator = { generate: jest.fn(() => "test") } as any;
+let hashManager = { hash: jest.fn(), compare: jest.fn() } as any;
+let authenticator = { generateToken: jest.fn() } as any;
+let userDatabase = { createUser: jest.fn() } as any;
 
+const userBusiness: UserBusiness = new UserBusiness(
+  idGenerator,
+  hashManager,
+  authenticator,
+  userDatabase
+);
+describe("Testing register band", () => {
   test("Shoulder return error when name is empty", async () => {
     expect.assertions(2);
-
-    const userBusiness: UserBusiness = new UserBusiness(
-      idGenerator,
-      hashManager,
-      authenticator,
-      userDatabase
-    );
 
     const input: UserInputDTO = {
       name: "",
@@ -27,22 +26,13 @@ describe("Testing register band", () => {
     try {
       await userBusiness.createUser(input);
     } catch (error) {
-      expect(error.message).toBe(
-        "Please provide a 'name', 'password' and 'role'"
-      );
+      expect(error.message).toBe("'name' not found");
       expect(error.statusCode).toBe(406);
     }
   });
 
   test("Shoulder return error when password is empty", async () => {
     expect.assertions(2);
-
-    const userBusiness: UserBusiness = new UserBusiness(
-      idGenerator,
-      hashManager,
-      authenticator,
-      userDatabase
-    );
 
     const input: UserInputDTO = {
       name: "Diana",
@@ -54,20 +44,13 @@ describe("Testing register band", () => {
     try {
       await userBusiness.createUser(input);
     } catch (error) {
-      expect(error.message).toBe("Invalid e-mail");
+      expect(error.message).toBe("'email' not found");
       expect(error.statusCode).toBe(406);
     }
   });
 
   test("Shoulder return error when role is empty", async () => {
     expect.assertions(2);
-
-    const userBusiness: UserBusiness = new UserBusiness(
-      idGenerator,
-      hashManager,
-      authenticator,
-      userDatabase
-    );
 
     const input: UserInputDTO = {
       name: "Diana",
@@ -79,23 +62,12 @@ describe("Testing register band", () => {
     try {
       await userBusiness.createUser(input);
     } catch (error) {
-      expect(error.message).toBe(
-        "Please provide a 'name', 'password' and 'role'"
-      );
+      expect(error.message).toBe("'role' not found");
       expect(error.statusCode).toBe(406);
     }
   });
 
   test("Shoulder return sucess case", async () => {
-   
-
-    const userBusiness: UserBusiness = new UserBusiness(
-      idGenerator,
-      hashManager,
-      authenticator,
-      userDatabase
-    );
-
     const input: UserInputDTO = {
       name: "Diana",
       email: "diana-monteiro@gmail.com",
@@ -105,10 +77,6 @@ describe("Testing register band", () => {
 
     try {
       await userBusiness.createUser(input);
-      expect(userDatabase.insertUser).toHaveBeenCalled()
-      expect(userDatabase.insertUser).toHaveBeenCalledWith(input)
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   });
 });

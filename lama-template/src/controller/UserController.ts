@@ -14,32 +14,32 @@ const userBusiness = new UserBusiness(
 );
 
 export class UserController {
-  async signup(req: Request, res: Response) {
+  async signup(req: Request, res: Response): Promise<void> {
     try {
       const { name, email, password, role } = req.body;
-      const input: UserInputDTO = {
+      const userInputDTO: UserInputDTO = {
         name,
         email,
         password,
         role,
       };
 
-      const token = await userBusiness.createUser(input);
+      const token = await userBusiness.createUser(userInputDTO);
       res.status(200).send({ token });
     } catch (error) {
       res.status(error.statusCode || 400).send({ error: error.message });
     }
   }
 
-  async login(req: Request, res: Response) {
+  async login(req: Request, res: Response): Promise<void> {
     try {
       const { email, password } = req.body;
-      const input: LoginInputDTO = {
+      const loginInputDTO: LoginInputDTO = {
         email,
         password,
       };
 
-      const token = await userBusiness.getUserByEmail(input);
+      const token = await userBusiness.getUserByEmail(loginInputDTO);
 
       res.status(200).send({ message: "User logged!", token });
     } catch (error) {

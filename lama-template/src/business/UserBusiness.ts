@@ -14,9 +14,9 @@ export class UserBusiness {
     private userDatabase: UserDatabase
   ) {}
 
-  public async createUser(input: UserInputDTO) {
+  public async createUser(userInputDTO: UserInputDTO):Promise<string> {
     try {
-      const { name, password, email, role } = input;
+      const { name, password, email, role } = userInputDTO;
       const check = new CheckData();
 
       check.checkExistenceProperty(name, "name");
@@ -52,9 +52,9 @@ export class UserBusiness {
     }
   }
 
-  public async getUserByEmail(input: LoginInputDTO) {
+  public async getUserByEmail(loginInputDTO: LoginInputDTO):Promise<string> {
     try {
-      const { email, password } = input;
+      const { email, password } = loginInputDTO;
       const check = new CheckData();
 
       check.checkPasswordFormat(password);

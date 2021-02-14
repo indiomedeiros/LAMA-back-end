@@ -38,3 +38,16 @@ export enum SHOW_ROLE {
   SATURDAY = "SATURDAY",
   SUNDAY = "SUNDAY",
 }
+
+export interface ScheduleInputDTO{
+  band_id: string;
+  week_day: string;
+  start_time: number;
+  end_time: number;
+  token: string;
+}
+
+export interface GetShowByDayInputDTO {
+  day: string
+  token: string
+}
