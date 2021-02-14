@@ -1,9 +1,10 @@
 import { UserDatabase } from "../data/UserDatabase";
-import { UserInputDTO, User, LoginInputDTO, USER_ROLE } from "./entities/User";
+import { UserInputDTO, User, LoginInputDTO } from "./entities/User";
 import { IdGenerator } from "./service/IdGenerator";
 import { HashManager } from "./service/HashManager";
 import { Authenticator } from "./service/Authenticatior";
 import { CustomError } from "./errors/CustomError";
+import { CheckData } from "./errors/CheckData";
 
 export class UserBusiness {
   constructor(
@@ -15,31 +16,31 @@ export class UserBusiness {
 
   public async createUser(input: UserInputDTO) {
     try {
-      if (!input.name || !input.password || !input.role) {
-        throw new CustomError(406, "Please provide a 'name', 'password' and 'role'");
-      }
+      const { name, password, email, role } = input;
+      const check = new CheckData();
 
-      if (!input.email || input.email.indexOf("@") === -1) {
-        throw new CustomError(406, "Invalid e-mail");
-      }
+      check.checkExistenceProperty(name, "name");
+      check.checkExistenceProperty(role, "role");
+      check.checkPasswordFormat(password);
+      check.checkEmailFormat(email);
 
       const id: string = this.idGenarator.generateId();
 
-      const cypherPassword = await this.hashManager.hash(input.password);
+      const cypherPassword = await this.hashManager.hash(password);
 
       const newUser: User = new User(
         id,
-        input.name,
-        input.email,
+        name,
+        email,
         cypherPassword,
-        User.stringToUserRole(input.role)
+        User.stringToUserRole(role)
       );
 
       await this.userDatabase.insertUser(newUser);
 
       const accessToken: string = this.authenticator.generateToken({
         id,
-        role: input.role,
+        role: role,
       });
 
       return accessToken;
@@ -53,28 +54,21 @@ export class UserBusiness {
 
   public async getUserByEmail(input: LoginInputDTO) {
     try {
-      if (!input.email || !input.password) {
-        throw new CustomError(400, '"email" and "password" must be provided');
-      }
+      const { email, password } = input;
+      const check = new CheckData();
 
-      if (input.email.indexOf("@") === -1) {
-        throw new CustomError(401, "Email inválido");
-      }
+      check.checkPasswordFormat(password);
+      check.checkEmailFormat(email);
 
-      const user: User = await this.userDatabase.selectUser(input.email);
-
-      if (!user) {
-        throw new CustomError(404, "Invalid credentials");
-      }
+      const user: User = await this.userDatabase.selectUser(email);
+      check.checkExistenceObject(user, "Invalid credentials");
 
       const passwordIsCorrect: boolean = await this.hashManager.compare(
-        input.password,
+        password,
         user.password
       );
 
-      if (!passwordIsCorrect) {
-        throw new CustomError(404, "Invalid credentials");
-      }
+      check.checkExistenceObject(passwordIsCorrect, "Invalid credentials");
 
       const accessToken: string = this.authenticator.generateToken({
         id: user.id,

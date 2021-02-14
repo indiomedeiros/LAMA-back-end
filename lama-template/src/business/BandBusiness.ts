@@ -4,6 +4,7 @@ import { USER_ROLE } from "./entities/User";
 import { Authenticator } from "./service/Authenticatior";
 import { CustomError } from "./errors/CustomError";
 import { BandDatabase } from "../data/BandDatabase";
+import { CheckData } from "./errors/CheckData";
 
 export class BandBusiness {
   constructor(
@@ -12,19 +13,18 @@ export class BandBusiness {
     private bandDatabase: BandDatabase
   ) {}
 
-  public async createBand(band: BandInputDTO, token: string): Promise <void> {
+  public async createBand(band: BandInputDTO, token: string): Promise<void> {
     try {
       const { name, music_genre, responsible } = band;
       const id = this.idGenerator.generateId();
       const result = this.authenticator.getTokenData(token);
+      const check = new CheckData();
 
-      if(!name|| !music_genre || !responsible){
-        throw new CustomError(406, "Please provide a 'name', 'music_genre' and 'responsible");
-      }
+      check.checkExistenceProperty(name, "name");
+      check.checkExistenceProperty(music_genre, "music_genre");
+      check.checkExistenceProperty(responsible, "responsible");
+      check.checkAuthorization(result.role!);
 
-      if (!result || result.role !== USER_ROLE.ADMIN) {
-        throw new CustomError(401, "not authorized");
-      }
       const inputBand: Band = {
         id,
         name,
@@ -45,30 +45,25 @@ export class BandBusiness {
     try {
       const tokenResult = this.authenticator.getTokenData(token);
 
-      if (!tokenResult || tokenResult.role !== USER_ROLE.ADMIN) {
-        throw new CustomError(401, "not authorized");
-      }
+      const check = new CheckData();
+      check.checkAuthorization(tokenResult.role!);
 
       const queryResult = await this.bandDatabase.getBand(id);
-      if (!queryResult) {
-        throw new CustomError(404, "Post not found");
-      }
+      check.checkExistenceObject(queryResult, "Post not found");
 
       const band: Band = {
         id: queryResult.id,
-        name:queryResult.name,
-        music_genre:queryResult.music_genre,
-        responsible:queryResult.responsible
+        name: queryResult.name,
+        music_genre: queryResult.music_genre,
+        responsible: queryResult.responsible,
       };
 
       return band;
     } catch (error) {
       throw new CustomError(
-        error.statusCode,
+        error.statusCode || 400,
         error.sqlMessage || error.message
       );
     }
   }
-
- 
 }

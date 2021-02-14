@@ -1,6 +1,5 @@
 import { ShowDatabase } from "../data/ShowDatabase";
-import { SHOW_ROLE, Show } from "./entities/Show";
-import { USER_ROLE } from "./entities/User";
+import { CheckData } from "./errors/CheckData";
 import { CustomError } from "./errors/CustomError";
 import { Authenticator } from "./service/Authenticatior";
 import { IdGenerator } from "./service/IdGenerator";
@@ -18,39 +17,23 @@ export class ShowBusiness {
       const result = this.authenticator.getTokenData(token);
       const startTime = Number(start_time);
       const endTime = Number(end_time);
+      const check = new CheckData();
 
-      if(!band_id || !week_day || !startTime || !endTime){
-        throw new CustomError(406, "Please provide a 'band_id', 'week_day', 'end time' and 'start time'");
-      }
-
-      if (!result || result.role !== USER_ROLE.ADMIN) {
-        throw new CustomError(401, "Not authorized");
-      }
-
-      if (startTime < 8 || endTime > 23 || startTime >= endTime || !Number.isInteger(startTime) || !Number.isInteger(endTime)) {
-        throw new CustomError(401, "Selected time is invalid");
-      }
-
-      switch (week_day) {
-        case "SEXTA":
-          break;
-        case "SABADO":
-          break;
-        case "DOMINGO":
-          break;
-        default:
-          throw new CustomError(422, "Invalid week day");
-      }
+      check.checkExistenceProperty(band_id, "band_id");
+      check.checkExistenceProperty(week_day, "week_day");
+      check.checkExistenceProperty(startTime, "startTime");
+      check.checkExistenceProperty(endTime, "endTime");
+      check.checkAuthorization(result.role!);
+      check.checkTimeWithinRule(startTime, endTime);
+      check.checkDayWeek(week_day);
 
       const outputShow = await this.showDatabase.checkConcertSchedule(
         week_day,
         start_time,
         end_time
       );
-      console.log(outputShow);
-      if (outputShow.length !== 0) {
-        throw new CustomError(401, "Schedule not available");
-      }
+
+      check.checkArray(outputShow, "requested time / day is busy");
 
       const inputShow: any = {
         id,
@@ -61,7 +44,6 @@ export class ShowBusiness {
       };
 
       await this.showDatabase.insertShow(inputShow);
-      
     } catch (error) {
       throw new CustomError(
         error.statusCode,
@@ -70,34 +52,17 @@ export class ShowBusiness {
     }
   }
 
-  public async getShowByDay(input: string, token: string) {
+  public async getShowByDay(inputWeekday: string, token: string) {
     try {
-      if (!input) {
-        throw new CustomError(400, "Week day must be provided");
-      }
-
-      switch (input) {
-        case "SEXTA":
-          break;
-        case "SABADO":
-          break;
-        case "DOMINGO":
-          break;
-        default:
-          throw new CustomError(422, "Invalid week day");
-      }
+      const check = new CheckData();
+      check.checkExistenceProperty(inputWeekday, "day");
+      check.checkDayWeek(inputWeekday);
 
       const tokenResult = this.authenticator.getTokenData(token);
+      check.checkAuthorization(tokenResult.role!);
 
-      if (!tokenResult || tokenResult.role !== USER_ROLE.ADMIN) {
-        throw new CustomError(401, "not authorized");
-      }
-
-      const queryResult = await this.showDatabase.selectByDay(input);
-
-      if (!queryResult) {
-        throw new CustomError(404, "There is no show on this day.");
-      }
+      const queryResult = await this.showDatabase.selectByDay(inputWeekday);
+      check.checkExistenceObject(queryResult, "There is no show on this day.");
 
       return queryResult;
     } catch (error) {

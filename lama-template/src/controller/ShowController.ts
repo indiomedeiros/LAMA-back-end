@@ -11,7 +11,6 @@ const showBusiness = new ShowBusiness(
 );
 
 export class ShowController {
- 
   public async schedule(req: Request, res: Response) {
     try {
       const { band_id, week_day, start_time, end_time } = req.body;
@@ -35,11 +34,10 @@ export class ShowController {
     try {
       const token = req.headers.authorization as string;
       const day = req.body.day;
-      const result = await showBusiness.getShowByDay(day, token)
+      const result = await showBusiness.getShowByDay(day, token);
       res.status(201).send({ result });
     } catch (error) {
       res.status(error.statusCode || 400).send({ error: error.message });
     }
-
   }
 }
