@@ -31,13 +31,12 @@ export class BandController {
   }
 
   public async getBandById(req: Request, res: Response) {
-    try{
+    try {
       const token = req.headers.authorization as string;
       const band = await bandBusiness.getBandById(req.params.id, token);
 
       res.status(200).send({ message: "Success!", band });
-    }
-    catch(error) {
+    } catch (error) {
       res.status(error.statusCode || 400).send({ error: error.message });
     }
   }

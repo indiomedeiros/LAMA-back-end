@@ -33,15 +33,15 @@ export class UserController {
 
   async login(req: Request, res: Response) {
     try {
-      const {email, password} = req.body;
+      const { email, password } = req.body;
       const input: LoginInputDTO = {
         email,
-        password
+        password,
       };
 
       const token = await userBusiness.getUserByEmail(input);
 
-      res.status(200).send({message: "User logged!", token})
+      res.status(200).send({ message: "User logged!", token });
     } catch (error) {
       res.status(error.statusCode || 400).send({ error: error.message });
     }
