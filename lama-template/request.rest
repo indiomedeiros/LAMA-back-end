@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
     "name": "indio",
-    "email": "ndi@gmail.com",
+    "email": "indio@gmail.com",
     "password": "154769284" , 
     "role": "ADMIN"
 }
@@ -15,49 +15,49 @@ Content-Type: application/json
 
 {
     
-    "email": "ndi@gmail.com",
-    "password": "154769284"   
+   "email": "indio@gmail.com",
+   "password": "154769284"    
    
 }
 
 ### create Band
 POST http://localhost:3003/band/create 
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM4MjI4YTRmLTBkMzktNGQ5OS04MTk2LWM2ZmE4MzNhMWM4MCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYxMzMzMjc5NiwiZXhwIjoxNjEzNDE5MTk2fQ.f9FoA33gFI9dETKD9nEiTnQpyCyt3RZS-ipGEBvPKJA
+Authorization: "adicione aqui o token gerado no endpoint login"
 Content-Type: application/json
 
 {
     
-    "name": "Indio",
-    "music_genre": "indigena",
-    "responsible": "Daiana"  
+    "name": "Calipso",
+    "music_genre": "Emocore",
+    "responsible": "Joelma"  
    
 }
 
 ### get band
 POST http://localhost:3003/band/e8d7b126-7a11-4697-8916-8c087f0d7edc 
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM4MjI4YTRmLTBkMzktNGQ5OS04MTk2LWM2ZmE4MzNhMWM4MCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYxMzMzMjc5NiwiZXhwIjoxNjEzNDE5MTk2fQ.f9FoA33gFI9dETKD9nEiTnQpyCyt3RZS-ipGEBvPKJA
+Authorization: "adicione aqui o token gerado no endpoint login"
 Content-Type: application/json
 
 
 ### schedule Show
 POST http://localhost:3003/show/schedule
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM4MjI4YTRmLTBkMzktNGQ5OS04MTk2LWM2ZmE4MzNhMWM4MCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYxMzMzMjc5NiwiZXhwIjoxNjEzNDE5MTk2fQ.f9FoA33gFI9dETKD9nEiTnQpyCyt3RZS-ipGEBvPKJA
+Authorization: "adicione aqui o token gerado no endpoint login"
 Content-Type: application/json
 
 {
-        "band_id": "e8d7b126-7a11-4697-8916-8c087f0d7edc",
+        "band_id": "adicione o id da banda adiquirido no endpoint anterior",
         "week_day": "SATURDAY",
-        "start_time": 5,
-        "end_time":1
+        "start_time": 8,
+        "end_time":10
 }
 
 ### schedule Show
 GET http://localhost:3003/show/allshows
-Authorization: yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM4MjI4YTRmLTBkMzktNGQ5OS04MTk2LWM2ZmE4MzNhMWM4MCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYxMzMzMjc5NiwiZXhwIjoxNjEzNDE5MTk2fQ.f9FoA33gFI9dETKD9nEiTnQpyCyt3RZS-ipGEBvPKJA
+Authorization: "adicione aqui o token gerado no endpoint login"
 Content-Type: application/json
 
 {
-        "day": ""
+        "day": "SATURDAY"
 }
 
      
