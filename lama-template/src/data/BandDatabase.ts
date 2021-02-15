@@ -1,9 +1,8 @@
 import { Band } from "../business/entities/Band";
-import { CustomError } from "../business/errors/CustomError";
 import { BaseDatabase } from "./BaseDatabase";
+import { TablesDatabase } from "./TablesDatabase";
 
 export class BandDatabase extends BaseDatabase {
-  private static tableName = "lama_bands";
 
   private static toBandModel(band: Band): Band {
     const { id, name, music_genre, responsible } = band;
@@ -13,7 +12,7 @@ export class BandDatabase extends BaseDatabase {
 
   public async createBand(band: Band): Promise<void> {
     try {
-      await BaseDatabase.connection.insert(band).into(BandDatabase.tableName);
+      await BaseDatabase.connection.insert(band).into(TablesDatabase.lama_bands);
     } catch (error) {
       throw new Error(error.sqlMessage || error.message);
     }
@@ -23,7 +22,7 @@ export class BandDatabase extends BaseDatabase {
     try {
       const result = await BaseDatabase.connection
         .select("*")
-        .from(BandDatabase.tableName)
+        .from(TablesDatabase.lama_bands)
         .where({id});
         
       return BandDatabase.toBandModel(result[0]);

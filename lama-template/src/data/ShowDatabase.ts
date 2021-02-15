@@ -1,8 +1,8 @@
 import { BaseDatabase } from "./BaseDatabase";
 import { Show } from "../business/entities/Show";
+import { TablesDatabase } from "./TablesDatabase";
 
 export class ShowDatabase extends BaseDatabase {
-  private static tableName = "lama_shows";
 
   private static toShowModel(show: Show): Show {
     return new Show(
@@ -24,7 +24,7 @@ export class ShowDatabase extends BaseDatabase {
           start_time: show.start_time,
           end_time: show.end_time,
         })
-        .into(ShowDatabase.tableName);
+        .into(TablesDatabase.lama_shows);
     } catch (error) {
       throw new Error(error.sqlMessage || error.message);
     }
@@ -35,7 +35,7 @@ export class ShowDatabase extends BaseDatabase {
       const result = await BaseDatabase.connection.raw(
         `SELECT name, music_genre, start_time, end_time
             FROM lama_bands
-            JOIN ${ShowDatabase.tableName}
+            JOIN ${TablesDatabase.lama_shows}
             ON lama_shows.band_id = lama_bands.id
             WHERE lama_shows.week_day = "${week_day}"
             ORDER BY lama_shows.start_time;`
@@ -53,7 +53,7 @@ export class ShowDatabase extends BaseDatabase {
   ): Promise<any> {
     try {
       const result = await BaseDatabase.connection.raw(`
-            SELECT * FROM ${ShowDatabase.tableName} 
+            SELECT * FROM ${TablesDatabase.lama_shows} 
             WHERE start_time AND end_time  
             BETWEEN '${start_time}' AND '${end_time}' AND  
             week_day = "${week_day}";

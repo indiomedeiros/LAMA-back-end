@@ -1,10 +1,12 @@
 import { BaseDatabase } from "./BaseDatabase"
 import { User } from "../business/entities/User"
 import { CustomError } from "../business/errors/CustomError"
+import { TablesDatabase } from "./TablesDatabase"
 
-export class UserDatabase extends BaseDatabase {
 
-    private static tableName = "users"
+
+
+export class UserDatabase extends BaseDatabase  {
 
     private static toUserModel(user: User): User {
         return new User(
@@ -26,7 +28,7 @@ export class UserDatabase extends BaseDatabase {
                password: user.password,
                role: User.roleToString(user.role)
             })
-            .into(UserDatabase.tableName)
+            .into(TablesDatabase.lama_users)
         } catch (error) {
             throw new Error(error.sqlMessage || error.message);
          }
@@ -36,7 +38,7 @@ export class UserDatabase extends BaseDatabase {
         try{
             const result = await BaseDatabase.connection
             .select("*")
-            .from(UserDatabase.tableName)
+            .from(TablesDatabase.lama_users)
             .where({email})
 
             return UserDatabase.toUserModel(result[0])
