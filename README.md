@@ -1,7 +1,7 @@
 #
 PROJETO LAMA
 ===
-Nome dos integrantes:
+Desenvolvedora e desenvolvedor:
 ---
 Diana Monteiro e Indio Medeiros 
 
