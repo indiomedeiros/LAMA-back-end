@@ -1,6 +1,7 @@
 #
 PROJETO LAMA
 ===
+O projeto é uma API que fornece a possibilidade de agendamento de show de bandas musicais.
 Desenvolvedora e desenvolvedor:
 ---
 Diana Monteiro e Indio Medeiros 
